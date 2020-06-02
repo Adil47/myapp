@@ -1,0 +1,105 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+
+
+</head>
+<body>
+
+
+
+
+
+
+<table border="1">
+	<tr>
+		<th>Id</th>
+		<th>Name</th>
+		<th>Phone</th>
+		<th>Email</th>
+		<th>Password</th>
+		<th>Gender</th>
+		<th>Subjects</th>
+		<th>PDF</th>
+		<th>Image</th>
+		<th>Delete</th>
+		<th>Edit</th>
+		
+
+
+	</tr>
+
+<?php
+include "connection.php";
+
+$query=mysqli_query($con,"select * from student");
+while ($row=mysqli_fetch_array($query)) 
+{
+	?>
+		<tr>
+			<td><?php echo $row["Id"]?></td>
+			<td><?php echo $row["Name"]?></td>
+			<td><?php echo $row["Phone"]?></td>
+			<td><?php echo $row["Email"]?></td>
+			<td><?php echo $row["Password"]?></td>
+			<td><?php echo $row["Gender"]?></td>
+			<td><?php echo $row["Subjects"]?></td>
+			<td>
+				<a href="<?php echo $row['pdfFile']?>" download='<?php echo $row['Name']?>.pdf'>download</a>
+			</td>
+
+
+			<td>
+				<img class="stdImg" src="<?php echo $row['imgPath']?>" height="60" width="60" style="border-radius: 40px">
+			</td>
+			<td>
+				<a href="index.php?DeleteId=<?php echo $row['Id']?>">
+					<img src="Images/delete.png" width="30">
+				</a>
+				
+			</td>
+			<td>
+				<a href="index.php?EditId=<?php echo $row['Id']?>">
+					<img src="Images/edit.png" width="30">
+				</a>
+				
+			</td>
+		</tr>
+	<?php
+}
+
+?>
+</table>
+</body>
+</html>
+
+
+<script type="text/javascript">
+document.getElementById('imgFile').onchange = function (evt) {
+    var tgt = evt.target || window.event.srcElement,
+        files = tgt.files;
+
+    // FileReader support
+    if (FileReader && files && files.length) {
+        var fr = new FileReader();
+        fr.onload = function () {
+            document.getElementById('imgId').src = fr.result;
+        }
+        fr.readAsDataURL(files[0]);
+    }
+
+    // Not supported
+    else {
+        // fallback -- perhaps submit the input to an iframe and temporarily store
+        // them on the server until the user's session ends.
+    }
+}
+
+</script>
